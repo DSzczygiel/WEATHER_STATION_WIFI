@@ -1,0 +1,45 @@
+***FRAME***
+[1B start byte][1B code][2B msg length][nB message][2B CRC-16]
+
+Start byte - 0x7E
+Escape character - 0x7D
+XOR value - 0x20
+CRC16 Poly - 0xA001
+CRC16 Init Value - 0x0000
+
+***CODES***
+0 - time request
+1 - weather request
+2 - time respose
+3 - weather response
+4 - error response
+
+***ERROR CODES***
+-10 - weather error
+-20 - time error
+
+***Weather response message structure***
+--current day info
+[1B feels like temp][1B wind speed][1B humidity][8B wind direction]
+[1B sunrise hour][1B sunrise minutes][1B sunset hour][1B sunset minutes]
+--hourly weather info - 4 hours
+[1B id][1B temp][12B description][1B id][1B temp][12B description]
+[1B id][1B temp][12B description][1B id][1B temp][12B description]
+--daily weather info - 4 days
+[1B id][1B temp][1B nightTemp][12B description][1B id][1B temp][1B nightTemp][12B description]
+[1B id][1B temp][1B nightTemp][12B description][1B id][1B temp][1B nightTemp][12B description]
+
+TOTAL 131 bytes
+
+***Time respose message structure***
+[1B hour][1B minutes][1B seconds][1B day][1B month][1B year][1B dayOfWeek]
+
+TOTAL 7 bytes
+
+***Weather/time request***
+empty body - length = 0
+
+***Error response message structure***
+[code][50B description]
+
+TOTAL 51 bytes
